@@ -23,7 +23,8 @@ window.TRIP_DATA = {
       city: "Fukuoka",
       title: "台北 → 福岡",
       titleEn: "TAIPEI TO FUKUOKA",
-      coverPosition: "78% 50%",
+      coverImage: "./images/day-01-flight-fukuoka.jpg",
+      coverPosition: "58% 38%",
       events: [
         {
           id: "d1-airport",
@@ -89,7 +90,8 @@ window.TRIP_DATA = {
       city: "Fukuoka",
       title: "福岡自由日",
       titleEn: "FUKUOKA OPEN DAY",
-      coverPosition: "68% 50%",
+      coverImage: "./images/day-02-fukuoka-open-day.jpg",
+      coverPosition: "58% 62%",
       events: [
         {
           id: "d2-open",
@@ -113,7 +115,8 @@ window.TRIP_DATA = {
       city: "Fukuoka",
       title: "福岡 SoftBank HAWKS",
       titleEn: "FUKUOKA SOFTBANK HAWKS",
-      coverPosition: "48% 50%",
+      coverImage: "./images/day-03-baseball.jpg",
+      coverPosition: "62% 64%",
       events: [
         {
           id: "d3-baseball",
@@ -138,7 +141,8 @@ window.TRIP_DATA = {
       city: "Osaka",
       title: "福岡 → 大阪",
       titleEn: "FUKUOKA TO OSAKA",
-      coverPosition: "72% 50%",
+      coverImage: "./images/day-04-shinkansen-osaka.jpg",
+      coverPosition: "62% 66%",
       events: [
         {
           id: "d4-depart",
@@ -202,7 +206,8 @@ window.TRIP_DATA = {
       city: "Osaka",
       title: "大阪自由日",
       titleEn: "OSAKA OPEN DAY",
-      coverPosition: "60% 50%",
+      coverImage: "./images/day-05-osaka-shopping.jpg",
+      coverPosition: "62% 58%",
       events: [
         {
           id: "d5-open",
@@ -226,7 +231,8 @@ window.TRIP_DATA = {
       city: "Osaka",
       title: "Summer Sonic 大阪 · Day 1",
       titleEn: "SUMMER SONIC OSAKA · DAY 1",
-      coverPosition: "45% 50%",
+      coverImage: "./images/day-06-summer-sonic.jpg",
+      coverPosition: "60% 68%",
       events: [
         {
           id: "d6-depart",
@@ -265,7 +271,8 @@ window.TRIP_DATA = {
       city: "Osaka",
       title: "大阪自由日",
       titleEn: "OSAKA OPEN DAY",
-      coverPosition: "54% 50%",
+      coverImage: "./images/day-07-osaka-rest.jpg",
+      coverPosition: "64% 66%",
       events: [
         {
           id: "d7-open",
@@ -289,7 +296,8 @@ window.TRIP_DATA = {
       city: "Osaka",
       title: "Summer Sonic 大阪 · Day 2",
       titleEn: "SUMMER SONIC OSAKA · DAY 2",
-      coverPosition: "40% 50%",
+      coverImage: "./images/day-08-summer-sonic.jpg",
+      coverPosition: "62% 68%",
       events: [
         {
           id: "d8-depart",
@@ -328,7 +336,8 @@ window.TRIP_DATA = {
       city: "Kobe",
       title: "神戶 → 台北",
       titleEn: "KOBE TO TAIPEI",
-      coverPosition: "64% 50%",
+      coverImage: "./images/day-09-kobe-return.jpg",
+      coverPosition: "58% 58%",
       events: [
         {
           id: "d9-depart",

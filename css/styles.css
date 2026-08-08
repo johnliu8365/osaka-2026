@@ -65,7 +65,7 @@ main { padding-bottom: calc(100px + var(--safe-bottom)); }
 }
 .hero::before {
   content: ""; position: absolute; inset: 0; background-image: linear-gradient(180deg, rgba(11,25,40,.02) 20%, rgba(8,22,36,.74) 100%), var(--hero-image, none);
-  background-size: cover; background-position: 100% 50%; transform: scale(1.01);
+  background-size: cover; background-position: var(--cover-position, 50% 50%); transform: scale(1.01);
 }
 .hero::after { content: ""; position: absolute; inset: 0; border: 1px solid rgba(255,255,255,.25); border-radius: inherit; pointer-events: none; }
 .hero-copy { position: relative; z-index: 1; }
@@ -200,7 +200,7 @@ main { padding-bottom: calc(100px + var(--safe-bottom)); }
 @keyframes sheet-up { from { transform: translateY(24px); opacity: 0; } }
 .sheet-inner { position: relative; max-height: 92dvh; overflow-y: auto; padding-bottom: calc(28px + var(--safe-bottom)); }
 .round-close { position: absolute; z-index: 2; right: 16px; top: 16px; width: 42px; height: 42px; border: 0; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.92); color: var(--ink); box-shadow: 0 5px 18px rgba(0,0,0,.1); font-size: 24px; cursor: pointer; }
-.detail-hero { position: relative; height: 245px; padding: 22px; display: flex; align-items: flex-end; color: white; background-image: linear-gradient(180deg, rgba(10,28,45,.05), rgba(10,28,45,.8)), var(--hero-image, none); background-size: cover; background-position: center; }
+.detail-hero { position: relative; height: 245px; padding: 22px; display: flex; align-items: flex-end; color: white; background-image: linear-gradient(180deg, rgba(10,28,45,.05), rgba(10,28,45,.8)), var(--hero-image, none); background-size: cover; background-position: var(--cover-position, 50% 50%); }
 .detail-hero h1 { margin: 8px 0 3px; font-family: Georgia, serif; font-size: 31px; line-height: 1; font-weight: 500; }
 .detail-hero p { margin: 0; font-size: 12px; opacity: .8; }
 .detail-body { padding: 23px 20px; }

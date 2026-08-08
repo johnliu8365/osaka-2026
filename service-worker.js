@@ -1,13 +1,22 @@
-const CACHE_NAME = "osaka-2026-v8";
+const CACHE_NAME = "osaka-2026-v10";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./css/styles.css?v=8",
-  "./js/app.js?v=8",
-  "./data/trip.js?v=8",
-  "./manifest.json?v=8",
+  "./css/styles.css?v=10",
+  "./js/app.js?v=10",
+  "./data/trip.js?v=10",
+  "./manifest.json?v=10",
   "./images/travel-cover.jpg",
   "./images/travel-cover-mobile.jpg",
+  "./images/day-01-flight-fukuoka.jpg",
+  "./images/day-02-fukuoka-open-day.jpg",
+  "./images/day-03-baseball.jpg",
+  "./images/day-04-shinkansen-osaka.jpg",
+  "./images/day-05-osaka-shopping.jpg",
+  "./images/day-06-summer-sonic.jpg",
+  "./images/day-07-osaka-rest.jpg",
+  "./images/day-08-summer-sonic.jpg",
+  "./images/day-09-kobe-return.jpg",
   "./images/icon-192.png",
   "./images/icon-512.png"
 ];
