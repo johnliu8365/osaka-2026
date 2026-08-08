@@ -1,0 +1,16 @@
+{
+  "name": "2026 大阪 Summer Sonic",
+  "short_name": "Osaka 2026",
+  "description": "可離線閱讀的 2026 日本旅行手冊",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f1e8",
+  "theme_color": "#f6f1e8",
+  "lang": "zh-Hant",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "./images/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
