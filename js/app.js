@@ -47,7 +47,10 @@
   }
 
   function minutes(time) {
-    const [hours, mins] = time.split(":").map(Number);
+    const match = String(time).match(/^(\d{1,2}):(\d{2})$/);
+    if (!match) return null;
+    const hours = Number(match[1]);
+    const mins = Number(match[2]);
     return hours * 60 + mins;
   }
 
@@ -57,8 +60,15 @@
     const isActualToday = localDate === day.date;
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
     if (!isActualToday) return { nowIndex: -1, nextIndex: 0 };
-    const nowIndex = day.events.findIndex(event => minutes(event.startTime) <= currentMinutes && minutes(event.endTime || event.startTime) >= currentMinutes);
-    const nextIndex = day.events.findIndex(event => minutes(event.startTime) > currentMinutes);
+    const nowIndex = day.events.findIndex(event => {
+      const start = minutes(event.startTime);
+      const end = minutes(event.endTime);
+      return start !== null && start <= currentMinutes && (end === null ? 24 * 60 : end) >= currentMinutes;
+    });
+    const nextIndex = day.events.findIndex(event => {
+      const start = minutes(event.startTime);
+      return start !== null && start > currentMinutes;
+    });
     return { nowIndex, nextIndex };
   }
 
@@ -168,13 +178,11 @@
 
   function renderInfo() {
     $("#info-content").innerHTML = `
-      ${infoBlock("Flights", `${trip.flights.length} BOOKINGS`, trip.flights.map(flightCard).join(""))}
-      ${infoBlock("Hotels", "3 CITIES", trip.hotels.map(hotelCard).join(""))}
-      ${infoBlock("Vouchers", "TAP TO ENLARGE", trip.vouchers.map(voucherCard).join(""))}
+      ${infoBlock("Flights", `${trip.flights.length} FLIGHTS`, trip.flights.map(flightCard).join(""))}
+      ${infoBlock("Hotels", "2 STAYS", trip.hotels.map(hotelCard).join(""))}
       ${infoBlock("Important notes", "READ BEFORE LEAVING", `<div class="note-card"><ol class="note-list">${trip.notes.map(note => `<li>${escapeHTML(note)}</li>`).join("")}</ol></div>`)}
       ${infoBlock("Useful links", "ONLINE ONLY", `<div class="note-card">${trip.usefulLinks.map(link => `<a class="useful-link" href="${escapeHTML(link.url)}" target="_blank" rel="noreferrer">${escapeHTML(link.label)}</a>`).join("")}</div>`)}
     `;
-    $$("[data-voucher-id]", $("#info-content")).forEach(button => button.addEventListener("click", () => openVoucher(button.dataset.voucherId)));
   }
 
   function infoBlock(title, meta, content) {
@@ -185,16 +193,12 @@
     return `<article class="flight-card">
       <div class="flight-route"><span>${escapeHTML(flight.route.split(" → ")[0])}</span><i aria-hidden="true"></i><span>${escapeHTML(flight.route.split(" → ")[1])}</span></div>
       <div class="flight-times"><div><strong>${escapeHTML(flight.departure)}</strong>${cityLockup(flight.from, "flight-city")}</div><div><strong>${escapeHTML(flight.arrival)}</strong>${cityLockup(flight.to, "flight-city")}</div></div>
-      <div class="flight-meta"><span>${formatDate(flight.date, { weekday: "short", month: "short", day: "numeric" })}<br>${escapeHTML(flight.flightNumber)}</span><span>Reservation<br><strong>${escapeHTML(flight.reservation)}</strong></span></div>
+      <div class="flight-meta"><span>${formatDate(flight.date, { weekday: "short", month: "short", day: "numeric" })}<br>${escapeHTML(flight.flightNumber)}</span><span>Terminal<br><strong>${escapeHTML(flight.terminal || "待確認")}</strong></span></div>
     </article>`;
   }
 
   function hotelCard(hotel) {
     return `<article class="hotel-card"><div class="hotel-card-top"><div>${cityLockup(hotel.city, "hotel-city")}<h3>${escapeHTML(hotel.name)}</h3><span class="hotel-name-en">${escapeHTML(hotel.nameEn || "")}</span><p>${escapeHTML(hotel.address)}</p></div></div><div class="hotel-dates"><span>${escapeHTML(hotel.stay)}</span><span>IN ${escapeHTML(hotel.checkIn)} · OUT ${escapeHTML(hotel.checkOut)}</span></div><p>${escapeHTML(hotel.note)}</p><div class="quick-actions"><a class="quick-action" href="${escapeHTML(hotel.mapsUrl)}" target="_blank" rel="noreferrer">↗ Google Maps</a></div></article>`;
-  }
-
-  function voucherCard(voucher) {
-    return `<article class="voucher-card"><div class="voucher-card-top"><div><span class="city-code">${formatDate(voucher.date, { month: "short", day: "numeric" }).toUpperCase()}</span><h3>${escapeHTML(voucher.event)}</h3><p>${escapeHTML(voucher.ticketType)}<br>Booking · ${escapeHTML(voucher.bookingNumber)}</p></div><span class="voucher-preview" aria-hidden="true"></span></div><div class="quick-actions"><button class="quick-action primary" type="button" data-voucher-id="${escapeHTML(voucher.id)}">▦ Open QR</button></div></article>`;
   }
 
   function findEvent(id) {
@@ -212,7 +216,6 @@
     const category = categories[event.category] || { icon: "•", label: event.category };
     const actions = [
       event.mapsUrl && `<a class="quick-action" href="${escapeHTML(event.mapsUrl)}" target="_blank" rel="noreferrer">↗ Google Maps</a>`,
-      event.voucherId && `<button class="quick-action primary" type="button" data-detail-voucher="${escapeHTML(event.voucherId)}">▦ Voucher</button>`,
       event.websiteUrl && `<a class="quick-action" href="${escapeHTML(event.websiteUrl)}" target="_blank" rel="noreferrer">↗ Official site</a>`
     ].filter(Boolean).join("");
     const routeParts = (event.transport || "現場確認").split(" → ");
@@ -226,37 +229,6 @@
       </div>`;
     const dialog = $("#event-dialog");
     dialog.showModal();
-    const voucherButton = $("[data-detail-voucher]", dialog);
-    if (voucherButton) voucherButton.addEventListener("click", () => { dialog.close(); openVoucher(voucherButton.dataset.detailVoucher); });
-  }
-
-  function pseudoQRMatrix(seed) {
-    const size = 21;
-    let hash = 2166136261;
-    for (const char of seed) { hash ^= char.charCodeAt(0); hash = Math.imul(hash, 16777619); }
-    const cells = Array(size * size).fill(false);
-    const finder = (x, y) => {
-      for (let row = 0; row < 7; row++) for (let col = 0; col < 7; col++) {
-        const edge = row === 0 || row === 6 || col === 0 || col === 6;
-        const core = row >= 2 && row <= 4 && col >= 2 && col <= 4;
-        cells[(y + row) * size + x + col] = edge || core;
-      }
-    };
-    finder(0, 0); finder(size - 7, 0); finder(0, size - 7);
-    for (let index = 0; index < cells.length; index++) {
-      const x = index % size, y = Math.floor(index / size);
-      const reserved = (x < 8 && y < 8) || (x >= size - 8 && y < 8) || (x < 8 && y >= size - 8);
-      if (!reserved) { hash ^= hash << 13; hash ^= hash >>> 17; hash ^= hash << 5; cells[index] = (hash >>> 0) % 3 !== 0; }
-    }
-    return cells;
-  }
-
-  function openVoucher(id) {
-    const voucher = trip.vouchers.find(item => item.id === id);
-    if (!voucher) return;
-    const matrix = pseudoQRMatrix(voucher.code);
-    $("#qr-fullscreen").innerHTML = `<p class="eyebrow">SHOW AT ENTRANCE</p><h1 id="qr-title">${escapeHTML(voucher.event)}</h1><p>${formatDate(voucher.date, { weekday: "long", month: "long", day: "numeric" })} · ${escapeHTML(voucher.ticketType)}</p><div class="qr-code" aria-label="Sample QR code">${matrix.map(dark => `<i class="qr-cell ${dark ? "is-dark" : ""}"></i>`).join("")}</div><span class="sample-warning">SAMPLE · NOT A VALID TICKET</span><strong class="qr-booking">${escapeHTML(voucher.bookingNumber)}</strong>`;
-    $("#qr-dialog").showModal();
   }
 
   function switchView(target, updateHash = true) {
@@ -284,8 +256,7 @@
     renderToday(); renderTrip(); renderExplore(); renderInfo();
     $$(".nav-item").forEach(button => button.addEventListener("click", () => switchView(button.dataset.target)));
     $$("[data-close-dialog]").forEach(button => button.addEventListener("click", () => $("#event-dialog").close()));
-    $$("[data-close-qr]").forEach(button => button.addEventListener("click", () => $("#qr-dialog").close()));
-    [$("#event-dialog"), $("#qr-dialog")].forEach(dialog => dialog.addEventListener("click", event => { if (event.target === dialog) dialog.close(); }));
+    $("#event-dialog").addEventListener("click", event => { if (event.target === event.currentTarget) event.currentTarget.close(); });
     window.addEventListener("online", updateNetworkStatus); window.addEventListener("offline", updateNetworkStatus); updateNetworkStatus();
     const hash = location.hash.slice(1); if (["today", "trip", "explore", "info"].includes(hash)) switchView(hash, false);
     if ("serviceWorker" in navigator) {

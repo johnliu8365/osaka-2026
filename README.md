@@ -14,7 +14,7 @@ python3 -m http.server 4173
 
 ## Edit trip data
 
-所有行程、地點、班機、住宿與票券範例資料集中在 `data/trip.js`。正式出發前，請用 Notion 的最終 Snapshot 替換範例內容與票券圖片。
+所有行程、地點、班機與住宿資料集中在 `data/trip.js`，可在出發前用 Notion 的最新 Snapshot 更新。
 
 ## GitHub Pages
 
