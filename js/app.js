@@ -13,10 +13,19 @@
   };
 
   const state = { dayIndex: getInitialDayIndex(), city: "All", category: "all" };
-  const coverAsset = `url('${new URL("./images/travel-cover.jpg", document.baseURI).href}')`;
+  const coverAsset = `url('${new URL("./images/travel-cover-mobile.jpg", document.baseURI).href}')`;
   const heroAsset = `url('${new URL("./images/travel-cover-mobile.jpg", document.baseURI).href}')`;
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+  function cityName(key) {
+    return trip.cityNames?.[key] || { name: key, roman: String(key).toUpperCase() };
+  }
+
+  function cityLockup(key, className = "city-lockup") {
+    const city = cityName(key);
+    return `<span class="${className}"><strong>${escapeHTML(city.name)}</strong><small>${escapeHTML(city.roman)}</small></span>`;
+  }
 
   function escapeHTML(value = "") {
     return String(value).replace(/[&<>'"]/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]);
@@ -58,15 +67,16 @@
     const moment = eventMoment(day);
     const nowEvent = moment.nowIndex >= 0 ? day.events[moment.nowIndex] : null;
     const nextEvent = day.events[moment.nextIndex >= 0 ? moment.nextIndex : Math.max(day.events.length - 1, 0)];
-    const nowCopy = nowEvent || { startTime: "—", title: state.dayIndex === 0 ? "旅程即將開始" : "自由時間", location: day.city };
+    const nowCopy = nowEvent || { startTime: "—", title: state.dayIndex === 0 ? "旅程即將開始" : "自由時間", location: cityName(day.city).name };
 
     $("#today-content").innerHTML = `
       <div class="hero" style="--hero-image:${heroAsset}; --cover-position:${day.coverPosition}">
         <div class="hero-copy">
           <span class="day-kicker">DAY ${day.dayNumber}</span>
           <h1 id="today-heading">${escapeHTML(day.title)}</h1>
+          <p class="hero-subtitle">${escapeHTML(day.titleEn || "")}</p>
           <p class="hero-date">${escapeHTML(day.weekday)} · ${formatDate(day.date, { month: "short", day: "numeric" })}</p>
-          <p class="hero-route">${escapeHTML(day.city)} · JAPAN</p>
+          <div class="hero-route">${cityLockup(day.city, "hero-city")}</div>
         </div>
       </div>
       <div class="now-next-wrap">
@@ -116,7 +126,7 @@
     $("#day-index").innerHTML = trip.days.map(day => `
       <button class="day-card" type="button" data-day-index="${day.dayNumber - 1}" style="--hero-image:${coverAsset}; --cover-position:${day.coverPosition}">
         <span class="day-card-number">DAY ${day.dayNumber}<b>${formatDate(day.date).toUpperCase()}</b></span>
-        <div><h2>${escapeHTML(day.title)}</h2><p>${escapeHTML(day.weekday)} · ${escapeHTML(day.city)} · ${day.events.length} stops</p></div>
+        <div><h2>${escapeHTML(day.title)}</h2><span class="day-card-subtitle">${escapeHTML(day.titleEn || "")}</span><p>${escapeHTML(day.weekday)} · ${escapeHTML(cityName(day.city).name)} ${escapeHTML(cityName(day.city).roman)} · ${day.events.length} stops</p></div>
       </button>`).join("");
     $$("[data-day-index]", $("#day-index")).forEach(button => button.addEventListener("click", () => {
       state.dayIndex = Number(button.dataset.dayIndex);
@@ -128,7 +138,9 @@
   function renderExplore() {
     const cities = ["All", ...trip.cities];
     const categoryKeys = ["all", "sight", "food", "coffee", "shopping", "toy", "sports"];
-    $("#city-filters").innerHTML = cities.map(city => filterButton(city, city, state.city === city, "city")).join("");
+    $("#city-filters").innerHTML = cities.map(city => city === "All"
+      ? filterButton("全部", city, state.city === city, "city")
+      : cityFilterButton(city, state.city === city)).join("");
     $("#category-filters").innerHTML = categoryKeys.map(key => filterButton(key === "all" ? "All types" : `${categories[key].icon} ${categories[key].label}`, key, state.category === key, "category")).join("");
     updatePlaces();
     $$("[data-filter-city]").forEach(button => button.addEventListener("click", () => { state.city = button.dataset.filterCity; renderExplore(); }));
@@ -137,6 +149,11 @@
 
   function filterButton(label, value, active, type) {
     return `<button type="button" class="filter-button ${active ? "is-active" : ""}" data-filter-${type}="${escapeHTML(value)}" aria-pressed="${active}">${escapeHTML(label)}</button>`;
+  }
+
+  function cityFilterButton(city, active) {
+    const label = cityName(city);
+    return `<button type="button" class="filter-button city-filter ${active ? "is-active" : ""}" data-filter-city="${escapeHTML(city)}" aria-pressed="${active}"><span>${escapeHTML(label.name)}</span><small>${escapeHTML(label.roman)}</small></button>`;
   }
 
   function updatePlaces() {
@@ -167,13 +184,13 @@
   function flightCard(flight) {
     return `<article class="flight-card">
       <div class="flight-route"><span>${escapeHTML(flight.route.split(" → ")[0])}</span><i aria-hidden="true"></i><span>${escapeHTML(flight.route.split(" → ")[1])}</span></div>
-      <div class="flight-times"><div><strong>${escapeHTML(flight.departure)}</strong><span>${escapeHTML(flight.from)}</span></div><div><strong>${escapeHTML(flight.arrival)}</strong><span>${escapeHTML(flight.to)}</span></div></div>
+      <div class="flight-times"><div><strong>${escapeHTML(flight.departure)}</strong>${cityLockup(flight.from, "flight-city")}</div><div><strong>${escapeHTML(flight.arrival)}</strong>${cityLockup(flight.to, "flight-city")}</div></div>
       <div class="flight-meta"><span>${formatDate(flight.date, { weekday: "short", month: "short", day: "numeric" })}<br>${escapeHTML(flight.flightNumber)}</span><span>Reservation<br><strong>${escapeHTML(flight.reservation)}</strong></span></div>
     </article>`;
   }
 
   function hotelCard(hotel) {
-    return `<article class="hotel-card"><div class="hotel-card-top"><div><span class="city-code">${escapeHTML(hotel.city.toUpperCase())}</span><h3>${escapeHTML(hotel.name)}</h3><p>${escapeHTML(hotel.address)}</p></div></div><div class="hotel-dates"><span>${escapeHTML(hotel.stay)}</span><span>IN ${escapeHTML(hotel.checkIn)} · OUT ${escapeHTML(hotel.checkOut)}</span></div><p>${escapeHTML(hotel.note)}</p><div class="quick-actions"><a class="quick-action" href="${escapeHTML(hotel.mapsUrl)}" target="_blank" rel="noreferrer">↗ Google Maps</a></div></article>`;
+    return `<article class="hotel-card"><div class="hotel-card-top"><div>${cityLockup(hotel.city, "hotel-city")}<h3>${escapeHTML(hotel.name)}</h3><span class="hotel-name-en">${escapeHTML(hotel.nameEn || "")}</span><p>${escapeHTML(hotel.address)}</p></div></div><div class="hotel-dates"><span>${escapeHTML(hotel.stay)}</span><span>IN ${escapeHTML(hotel.checkIn)} · OUT ${escapeHTML(hotel.checkOut)}</span></div><p>${escapeHTML(hotel.note)}</p><div class="quick-actions"><a class="quick-action" href="${escapeHTML(hotel.mapsUrl)}" target="_blank" rel="noreferrer">↗ Google Maps</a></div></article>`;
   }
 
   function voucherCard(voucher) {
@@ -202,7 +219,7 @@
     $("#event-detail").innerHTML = `
       <div class="detail-hero" style="--hero-image:${heroAsset}"><div><span class="category-tag" style="color:white">${category.icon} ${category.label}</span><h1 id="event-dialog-title">${escapeHTML(event.title)}</h1><p>${escapeHTML(event.titleJa || "")} · ${escapeHTML(event.location || "")}</p></div></div>
       <div class="detail-body"><p class="detail-lede">${escapeHTML(event.description || "")}</p>
-        <section class="detail-section"><h2>Basic</h2><div class="detail-grid"><div class="detail-cell"><span>DATE</span><strong>${formatDate(day.date, { weekday: "long", month: "short", day: "numeric" })}</strong></div><div class="detail-cell"><span>TIME</span><strong>${escapeHTML(event.startTime)} — ${escapeHTML(event.endTime || "")}</strong></div><div class="detail-cell"><span>AREA</span><strong>${escapeHTML(event.area || day.city)}</strong></div><div class="detail-cell"><span>LOCATION</span><strong>${escapeHTML(event.location || "—")}</strong></div></div></section>
+        <section class="detail-section"><h2>Basic</h2><div class="detail-grid"><div class="detail-cell"><span>DATE</span><strong>${formatDate(day.date, { weekday: "long", month: "short", day: "numeric" })}</strong></div><div class="detail-cell"><span>TIME</span><strong>${escapeHTML(event.startTime)} — ${escapeHTML(event.endTime || "")}</strong></div><div class="detail-cell"><span>AREA</span>${cityLockup(event.area || day.city, "detail-city")}</div><div class="detail-cell"><span>LOCATION</span><strong>${escapeHTML(event.location || "—")}</strong></div></div></section>
         <section class="detail-section"><h2>Getting there</h2><ol class="route-flow">${routeParts.map(part => `<li>${escapeHTML(part)}</li>`).join("")}</ol></section>
         ${event.notes ? `<section class="detail-section"><h2>Keep in mind</h2><div class="note-callout">${escapeHTML(event.notes)}</div></section>` : ""}
         ${actions ? `<div class="quick-actions">${actions}</div>` : ""}

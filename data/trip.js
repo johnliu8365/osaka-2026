@@ -8,10 +8,17 @@ window.TRIP_DATA = {
   startDate: "2026-08-09",
   endDate: "2026-08-17",
   cities: ["Fukuoka", "Osaka", "Kobe"],
+  cityNames: {
+    Taipei: { name: "台北", roman: "TAIPEI" },
+    Taoyuan: { name: "桃園", roman: "TAOYUAN" },
+    Fukuoka: { name: "福岡", roman: "FUKUOKA" },
+    Osaka: { name: "大阪", roman: "OSAKA" },
+    Kobe: { name: "神戶", roman: "KOBE" }
+  },
   days: [
     {
       date: "2026-08-09", dayNumber: 1, weekday: "Sunday", city: "Fukuoka",
-      title: "Taipei → Fukuoka", coverPosition: "50% 56%",
+      title: "台北 → 福岡", titleEn: "Taipei → Fukuoka", coverPosition: "50% 56%",
       events: [
         { id: "d1-airport", startTime: "12:30", endTime: "13:00", category: "move", title: "桃園機場集合", titleJa: "桃園国際空港", area: "Taoyuan", location: "桃園機場 · Terminal 2", description: "先完成報到與行李託運，再找午餐。", transport: "機場捷運／計程車", notes: "護照、登機證與網卡放在隨身小包。", address: "桃園市大園區航站南路9號", mapsUrl: "https://maps.google.com/?q=Taiwan+Taoyuan+International+Airport" },
         { id: "d1-flight", startTime: "15:10", endTime: "18:20", category: "move", title: "飛往福岡", titleJa: "福岡へ", location: "TPE → FUK", description: "旅程正式開始。抵達後先領行李、完成入境。", transport: "Flight · Sample itinerary", notes: "Reservation: DL2TEB（範例）", voucherId: "flight-fuk", websiteUrl: "https://www.fukuoka-airport.jp/" },
@@ -20,7 +27,7 @@ window.TRIP_DATA = {
       ]
     },
     {
-      date: "2026-08-10", dayNumber: 2, weekday: "Monday", city: "Fukuoka", title: "Fukuoka — Seaside Day", coverPosition: "50% 52%",
+      date: "2026-08-10", dayNumber: 2, weekday: "Monday", city: "Fukuoka", title: "福岡・海岸日", titleEn: "Fukuoka — Seaside Day", coverPosition: "50% 52%",
       events: [
         { id: "d2-breakfast", startTime: "08:30", endTime: "09:15", category: "coffee", title: "Morning coffee", titleJa: "朝のコーヒー", location: "Tenjin", description: "咖啡、吐司，慢慢進入旅行節奏。", transport: "地下鐵空港線", notes: "週一部分小店公休，備選店見 Explore。" },
         { id: "d2-ohori", startTime: "10:00", endTime: "12:00", category: "sight", title: "大濠公園", titleJa: "大濠公園", location: "Chuo Ward", description: "繞湖散步，從城市走向海邊的清爽上午。", transport: "大濠公園站 · 徒步 7 min", mapsUrl: "https://maps.google.com/?q=Ohori+Park" },
@@ -29,7 +36,7 @@ window.TRIP_DATA = {
       ]
     },
     {
-      date: "2026-08-11", dayNumber: 3, weekday: "Tuesday", city: "Fukuoka", title: "Dazaifu & Tenjin", coverPosition: "50% 46%",
+      date: "2026-08-11", dayNumber: 3, weekday: "Tuesday", city: "Fukuoka", title: "太宰府與天神", titleEn: "Dazaifu & Tenjin", coverPosition: "50% 46%",
       events: [
         { id: "d3-dazaifu", startTime: "09:00", endTime: "12:30", category: "sight", title: "太宰府天滿宮", titleJa: "太宰府天満宮", location: "Dazaifu", description: "早點抵達，避開最熱與人潮最多的時段。", transport: "西鐵福岡（天神）→ 太宰府 · 約 35 min", notes: "回程吃梅枝餅。", mapsUrl: "https://maps.google.com/?q=Dazaifu+Tenmangu" },
         { id: "d3-lunch", startTime: "13:30", endTime: "14:30", category: "food", title: "牛腸鍋午餐", titleJa: "もつ鍋", location: "Tenjin", description: "福岡經典午餐，預留排隊時間。", transport: "天神站步行", notes: "Sample reservation · 2 people" },
@@ -38,7 +45,7 @@ window.TRIP_DATA = {
       ]
     },
     {
-      date: "2026-08-12", dayNumber: 4, weekday: "Wednesday", city: "Osaka", title: "Fukuoka → Osaka", coverPosition: "50% 48%",
+      date: "2026-08-12", dayNumber: 4, weekday: "Wednesday", city: "Osaka", title: "福岡 → 大阪", titleEn: "Fukuoka → Osaka", coverPosition: "50% 48%",
       events: [
         { id: "d4-breakfast", startTime: "08:30", endTime: "09:20", category: "food", title: "早餐", titleJa: "朝食", location: "Hakata", description: "移動日前的簡單早餐。", transport: "飯店附近", notes: "吃完確認新幹線座位。" },
         { id: "d4-checkout", startTime: "10:00", endTime: "10:15", category: "stay", title: "Checkout", titleJa: "チェックアウト", location: "Fukuoka Hotel", description: "完成退房，直接前往博多站。", transport: "—", notes: "確認房內插座與保險箱。" },
@@ -50,7 +57,7 @@ window.TRIP_DATA = {
       ]
     },
     {
-      date: "2026-08-13", dayNumber: 5, weekday: "Thursday", city: "Osaka", title: "Osaka Classics", coverPosition: "50% 42%",
+      date: "2026-08-13", dayNumber: 5, weekday: "Thursday", city: "Osaka", title: "大阪經典巡禮", titleEn: "Osaka Classics", coverPosition: "50% 42%",
       events: [
         { id: "d5-castle", startTime: "09:00", endTime: "11:30", category: "sight", title: "大阪城", titleJa: "大阪城", location: "Chuo Ward", description: "開門前抵達，從公園慢慢走向天守閣。", transport: "大阪城公園站", notes: "戶外曝曬，記得補水。", mapsUrl: "https://maps.google.com/?q=Osaka+Castle" },
         { id: "d5-lunch", startTime: "12:30", endTime: "13:30", category: "food", title: "大阪燒", titleJa: "お好み焼き", location: "Umeda", description: "熱騰騰的大阪午餐。", transport: "JR 環狀線", notes: "避開最熱門排隊店。" },
@@ -59,7 +66,7 @@ window.TRIP_DATA = {
       ]
     },
     {
-      date: "2026-08-14", dayNumber: 6, weekday: "Friday", city: "Osaka", title: "Summer Sonic Eve", coverPosition: "50% 60%",
+      date: "2026-08-14", dayNumber: 6, weekday: "Friday", city: "Osaka", title: "音樂祭前夜", titleEn: "Summer Sonic Eve", coverPosition: "50% 60%",
       events: [
         { id: "d6-sleep", startTime: "09:30", endTime: "10:00", category: "coffee", title: "Late start", titleJa: "ゆっくり朝", location: "Namba", description: "為音樂祭留體力，睡飽再出門。", transport: "—", notes: "補齊水、帽子、防曬。" },
         { id: "d6-market", startTime: "11:00", endTime: "13:00", category: "food", title: "木津市場", titleJa: "大阪木津卸売市場", location: "Daikokucho", description: "海鮮與市場午餐。", transport: "大國町站步行", mapsUrl: "https://maps.google.com/?q=Kizu+Market+Osaka" },
@@ -68,7 +75,7 @@ window.TRIP_DATA = {
       ]
     },
     {
-      date: "2026-08-15", dayNumber: 7, weekday: "Saturday", city: "Osaka", title: "SUMMER SONIC OSAKA", coverPosition: "50% 38%",
+      date: "2026-08-15", dayNumber: 7, weekday: "Saturday", city: "Osaka", title: "SUMMER SONIC 大阪", titleEn: "SUMMER SONIC OSAKA", coverPosition: "50% 38%",
       events: [
         { id: "d7-depart", startTime: "08:00", endTime: "09:10", category: "move", title: "前往會場", titleJa: "会場へ", location: "Osaka", description: "提早出發，依官方公告轉乘接駁。", transport: "Train + Shuttle · 以官方資訊為準", notes: "截圖回程路線與集合點。" },
         { id: "d7-festival", startTime: "10:00", endTime: "21:00", category: "music", title: "SUMMER SONIC OSAKA", titleJa: "サマーソニック大阪", location: "Venue TBC", description: "一整天的音樂、夏天與期待很久的現場。", transport: "依正式會場公告", notes: "防曬、鹽糖、補水；正式陣容與場地公告後更新。", voucherId: "summersonic", websiteUrl: "https://www.summersonic.com/" },
@@ -76,7 +83,7 @@ window.TRIP_DATA = {
       ]
     },
     {
-      date: "2026-08-16", dayNumber: 8, weekday: "Sunday", city: "Kobe", title: "Osaka → Kobe", coverPosition: "50% 54%",
+      date: "2026-08-16", dayNumber: 8, weekday: "Sunday", city: "Kobe", title: "大阪 → 神戶", titleEn: "Osaka → Kobe", coverPosition: "50% 54%",
       events: [
         { id: "d8-brunch", startTime: "10:00", endTime: "11:00", category: "coffee", title: "Brunch & recovery", titleJa: "ブランチ", location: "Namba", description: "音樂祭隔天不排早班，慢慢整理。", transport: "步行", notes: "補充水與水果。" },
         { id: "d8-kobe", startTime: "12:30", endTime: "13:20", category: "move", title: "大阪 → 神戶", titleJa: "大阪 → 神戸", location: "Sannomiya", description: "最後一座城市，從港灣收尾。", transport: "阪神／JR · 約 45 min", notes: "小心別搭到需要補票的列車。" },
@@ -85,7 +92,7 @@ window.TRIP_DATA = {
       ]
     },
     {
-      date: "2026-08-17", dayNumber: 9, weekday: "Monday", city: "Kobe", title: "Kobe → Taipei", coverPosition: "50% 50%",
+      date: "2026-08-17", dayNumber: 9, weekday: "Monday", city: "Kobe", title: "神戶 → 台北", titleEn: "Kobe → Taipei", coverPosition: "50% 50%",
       events: [
         { id: "d9-morning", startTime: "09:00", endTime: "10:30", category: "coffee", title: "神戶最後的早晨", titleJa: "神戸最後の朝", location: "Sannomiya", description: "咖啡、早餐與最後一點城市散步。", transport: "步行", notes: "11:00 前回飯店。" },
         { id: "d9-checkout", startTime: "11:00", endTime: "11:20", category: "stay", title: "Checkout", titleJa: "チェックアウト", location: "Kobe Hotel", description: "寄放行李，保持護照與票券在身上。", transport: "—", notes: "秤一次行李重量。" },
@@ -112,9 +119,9 @@ window.TRIP_DATA = {
     { id: "flight-tpe", route: "UKB → TPE", date: "2026-08-17", departure: "19:00", arrival: "21:10", from: "Kobe", to: "Taipei", flightNumber: "SAMPLE 202", terminal: "Kobe Airport", reservation: "SAMPLE17", note: "範例資料；出發前請替換訂位代號。" }
   ],
   hotels: [
-    { id: "hotel-fuk", city: "Fukuoka", name: "Fukuoka Hotel · SAMPLE", address: "Hakata Station Area, Fukuoka", stay: "Aug 09 — 12", checkIn: "15:00", checkOut: "10:00", note: "此為版面示意住宿，請用正式資料替換。", mapsUrl: "https://maps.google.com/?q=Hakata+Station" },
-    { id: "hotel-osa", city: "Osaka", name: "Osaka Hotel · SAMPLE", address: "Namba Area, Osaka", stay: "Aug 12 — 16", checkIn: "15:00", checkOut: "11:00", note: "靠近御堂筋線，音樂祭回程較方便。", mapsUrl: "https://maps.google.com/?q=Namba+Station" },
-    { id: "hotel-kob", city: "Kobe", name: "Kobe Hotel · SAMPLE", address: "Sannomiya Area, Kobe", stay: "Aug 16 — 17", checkIn: "15:00", checkOut: "11:00", note: "隔天搭 Port Liner 前往神戶機場。", mapsUrl: "https://maps.google.com/?q=Sannomiya+Station" }
+    { id: "hotel-fuk", city: "Fukuoka", name: "福岡飯店 · SAMPLE", nameEn: "Fukuoka Hotel", address: "博多站周邊，福岡", stay: "Aug 09 — 12", checkIn: "15:00", checkOut: "10:00", note: "此為版面示意住宿，請用正式資料替換。", mapsUrl: "https://maps.google.com/?q=Hakata+Station" },
+    { id: "hotel-osa", city: "Osaka", name: "大阪飯店 · SAMPLE", nameEn: "Osaka Hotel", address: "難波周邊，大阪", stay: "Aug 12 — 16", checkIn: "15:00", checkOut: "11:00", note: "靠近御堂筋線，音樂祭回程較方便。", mapsUrl: "https://maps.google.com/?q=Namba+Station" },
+    { id: "hotel-kob", city: "Kobe", name: "神戶飯店 · SAMPLE", nameEn: "Kobe Hotel", address: "三宮周邊，神戶", stay: "Aug 16 — 17", checkIn: "15:00", checkOut: "11:00", note: "隔天搭 Port Liner 前往神戶機場。", mapsUrl: "https://maps.google.com/?q=Sannomiya+Station" }
   ],
   vouchers: [
     { id: "summersonic", event: "SUMMER SONIC OSAKA", date: "2026-08-15", bookingNumber: "SS26-SAMPLE", ticketType: "1 DAY PASS · SAMPLE", note: "這是離線介面範例，不是有效票券。正式 QR 與姓名資料需於出發前替換。", code: "SS26SAMPLE0815" },
