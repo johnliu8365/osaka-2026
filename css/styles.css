@@ -164,6 +164,7 @@ main { padding-bottom: calc(100px + var(--safe-bottom)); }
 .flight-city strong { font-size: 12px; }
 .flight-city small { font-size: 7px; letter-spacing: .13em; }
 .flight-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 14px; border-top: 1px dashed rgba(255,255,255,.24); line-height: 1.5; }
+.flight-note { margin: 13px 0 0; padding-top: 12px; border-top: 1px dashed rgba(255,255,255,.24); color: rgba(255,255,255,.82); font-size: 11px; line-height: 1.5; }
 .hotel-card, .note-card { padding: 18px; margin-bottom: 10px; background: var(--white); border-radius: 20px; box-shadow: 0 6px 18px rgba(31,39,47,.045); }
 .hotel-card-top { display: flex; justify-content: space-between; gap: 10px; }
 .hotel-card h3 { margin: 0; font-size: 16px; }

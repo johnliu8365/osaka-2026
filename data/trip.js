@@ -381,7 +381,7 @@ window.TRIP_DATA = {
           category: "move",
           location: "UKB T2 → TPE T2",
           area: "Kobe",
-          description: "經濟艙，19:00 自神戶起飛，預計 20:55 抵達桃園。",
+          description: "兩人一起搭乘同一班回程航班；經濟艙，19:00 自神戶起飛，預計 20:55 抵達桃園。",
           transport: "神戶機場第 2 航廈 → 桃園國際機場第 2 航廈",
           notes: "出發前再次確認航空公司通知與報到時間。"
         }
@@ -415,6 +415,17 @@ window.TRIP_DATA = {
       terminal: "待確認"
     },
     {
+      route: "TPE → KIX",
+      from: "Taipei",
+      to: "Osaka",
+      departure: "16:25",
+      arrival: "20:15",
+      date: "2026-08-12",
+      flightNumber: "TIGERAIR TAIWAN · IT212",
+      terminal: "TPE T1 → KIX T1",
+      note: "同行者星期三抵達大阪的航班。"
+    },
+    {
       route: "UKB → TPE",
       from: "Kobe",
       to: "Taipei",
@@ -422,7 +433,8 @@ window.TRIP_DATA = {
       arrival: "20:55",
       date: "2026-08-17",
       flightNumber: "EVA AIR · BR175",
-      terminal: "UKB T2 → TPE T2"
+      terminal: "UKB T2 → TPE T2",
+      note: "回程兩人一起搭乘同一班飛機返回台北。"
     }
   ],
   hotels: [

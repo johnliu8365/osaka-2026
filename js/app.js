@@ -194,6 +194,7 @@
       <div class="flight-route"><span>${escapeHTML(flight.route.split(" → ")[0])}</span><i aria-hidden="true"></i><span>${escapeHTML(flight.route.split(" → ")[1])}</span></div>
       <div class="flight-times"><div><strong>${escapeHTML(flight.departure)}</strong>${cityLockup(flight.from, "flight-city")}</div><div><strong>${escapeHTML(flight.arrival)}</strong>${cityLockup(flight.to, "flight-city")}</div></div>
       <div class="flight-meta"><span>${formatDate(flight.date, { weekday: "short", month: "short", day: "numeric" })}<br>${escapeHTML(flight.flightNumber)}</span><span>Terminal<br><strong>${escapeHTML(flight.terminal || "待確認")}</strong></span></div>
+      ${flight.note ? `<p class="flight-note">${escapeHTML(flight.note)}</p>` : ""}
     </article>`;
   }
 
