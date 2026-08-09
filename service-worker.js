@@ -1,11 +1,11 @@
-const CACHE_NAME = "osaka-2026-v10";
+const CACHE_NAME = "osaka-2026-v11";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./css/styles.css?v=10",
-  "./js/app.js?v=10",
-  "./data/trip.js?v=10",
-  "./manifest.json?v=10",
+  "./css/styles.css?v=11",
+  "./js/app.js?v=11",
+  "./data/trip.js?v=11",
+  "./manifest.json?v=11",
   "./images/travel-cover.jpg",
   "./images/travel-cover-mobile.jpg",
   "./images/day-01-flight-fukuoka.jpg",
